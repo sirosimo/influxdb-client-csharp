@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Security;
@@ -36,6 +37,7 @@ namespace InfluxDB.Client
         private bool _verifySsl;
         private X509CertificateCollection _clientCertificates;
         private HttpClient _httpClient;
+        private TraceLevel _traceLevel;
 
         /// <summary>
         /// Set the url to connect the InfluxDB.
@@ -79,6 +81,25 @@ namespace InfluxDB.Client
             {
                 Arguments.CheckNotNull(value, "LogLevel");
                 _logLevel = value;
+            }
+        }
+
+        /// <summary>
+        /// Set the trace level for the client traces.
+        /// <list type="bullet">
+        /// <item>Verbose - Output all debugging and tracing messages.</item>
+        /// <item>Info - Output informational messages, warnings, and error-handling messages.</item>
+        /// <item>Warning - Output warnings and error-handling messages.</item>
+        /// <item>Error - Output error-handling messages.</item>
+        /// <item>Off - Output no tracing and debugging messages.</item>
+        /// </list>
+        /// </summary>
+        public TraceLevel TraceLevel {
+            get => _traceLevel;
+            set
+            {
+                Arguments.CheckNotNull(value, "TraceLevel");
+                _traceLevel = value;
             }
         }
 
@@ -281,6 +302,7 @@ namespace InfluxDB.Client
         /// <item>VerifySslCallback - callback function for handling the remote SSL Certificate Validation. The callback takes precedence over `VerifySsl`</item>
         /// <item>ClientCertificates - set X509CertificateCollection to be sent with HTTP requests</item>
         /// <item>DefaultTags - tags that will be use for writes by Point and POJO</item>
+        /// <item>TraceLevel - level for the client traces</item>
         /// </list>
         /// </para>
         /// </summary>

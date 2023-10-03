@@ -15,6 +15,7 @@ namespace InfluxDB.Client.Core.Internal
         internal const string BucketArgumentValidation =
             "'bucket' parameter. Please specify the bucket as a method parameter or use default configuration at 'InfluxDBClientOptions.Bucket'.";
 
+
         protected async Task<bool> PingAsync(Task<RestResponse> request)
         {
             try
